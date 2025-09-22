@@ -6,6 +6,9 @@ import com.wecp.progressive.entity.Accounts;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface AccountService {
 
     List<Accounts> getAllAccounts() throws SQLException;
@@ -21,9 +24,9 @@ public interface AccountService {
     default List<Accounts> getAccountsByUser(int userId) throws SQLException {
         return List.of();
     }
-    default Accounts getAccountById(int accountId) throws SQLException {
+    default Accounts getAccountById(Integer accountId) throws SQLException {
         return null;
     }
     default void updateAccount(Accounts accounts) throws SQLException {}
-    default void deleteAccount(int accountId) throws SQLException {}
+    default void deleteAccount(Integer accountId) throws SQLException {}
 }

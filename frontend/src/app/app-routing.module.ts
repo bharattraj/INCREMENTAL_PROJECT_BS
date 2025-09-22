@@ -1,8 +1,10 @@
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, Routes } from "@angular/router";
-import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from "./app.component";
+import { AuthInterceptor } from "./auth.interceptors";
+
 
 const routes: Routes = [
   {
@@ -19,17 +21,23 @@ const routes: Routes = [
     pathMatch: "full",
     redirectTo: "/auth",
   },
+  // {
+  //   path:'testing',
+  //   component:TestingComponent
+  // }
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent // Declare AppComponent
+  declarations: [AppComponent],
+  imports: [RouterModule.forRoot(routes), BrowserModule, HttpClientModule],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes)
-  ],
-  bootstrap: [AppComponent] // Bootstrap AppComponent
+  exports: [RouterModule],
+  bootstrap: [AppComponent]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
